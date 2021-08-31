@@ -1,5 +1,6 @@
 var canvas, backgroundImage;
-
+var xVel = 0;
+var yVel = 0;
 var gameState = 0;
 var playerCount;
 var allPlayers;

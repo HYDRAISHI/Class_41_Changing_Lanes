@@ -59,10 +59,7 @@ class Game {
       for(var plr in allPlayers){
         //add 1 to the index for every loop
         index = index + 1 ;
-
-        //position the cars a little away from each other in x direction
-        x = x + 200;
-        //use data form the database to display the cars in y direction
+        x = 200 + (index*200) + allPlayers[plr].xPos;        
         y = displayHeight - allPlayers[plr].distance;
         cars[index-1].x = x;
         cars[index-1].y = y;
@@ -73,20 +70,49 @@ class Game {
           camera.position.y = cars[index-1].y
         }
        
-        //textSize(15);
-        //text(allPlayers[plr].name + ": " + allPlayers[plr].distance, 120,display_position)
+        textSize(15);
+        fill("white");
+        textMode(CENTER);
+        text(allPlayers[plr].name, cars[index - 1].x , cars[index - 1].y - 100)
       }
 
     }
 
-    if(keyIsDown(UP_ARROW) && player.index !== null){
-      player.distance +=10
-      player.update();
+    
+    if(player.distance < 2150){
+      if(keyCode === 38 && player.index !== null){
+        yVel += 0.8;
+        if(keyCode === 37){
+          xVel -= 0.2;
+        }
+        if(keyCode === 39){
+          xVel += 0.2;
+        }
+      }
+
+      else if(keyCode === 38 && yVel > 0 && player.index !== null){
+        yVel -= 0.1;
+        xVel *= 0.9;
+      }
+
+      else{
+        yVel *= 0.985;
+        xVel *= 0.985;
+      }
     }
+    
+
+    player.xPos += xVel;
+    xVel *= 0.985;
+    player.distance += yVel;
+    yVel *= 0.98;
+    
+    
     if(player.distance > 3860){
       gameState = 2;
     }
    
+  player.update();
     drawSprites();
   }
 
